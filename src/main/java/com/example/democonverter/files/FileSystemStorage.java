@@ -39,7 +39,7 @@ public class FileSystemStorage implements FileStoreService {
 
     @Override
     public void merge(String filename) {
-        File file = new File(fileStorageConfig.getTempPath() + filename);
-        file.renameTo(new File(fileStorageConfig.getBasePath() + filename));
+        File file = new File(fileStorageConfig.getTempPath(), filename);
+        file.renameTo(new File(fileStorageConfig.getBasePath(), filename));
     }
 }

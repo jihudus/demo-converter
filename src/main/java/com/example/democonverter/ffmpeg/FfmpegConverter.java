@@ -25,7 +25,10 @@ public class FfmpegConverter implements ConversionService {
     @Override
     public Runnable convert(String name, int newWidth, int newHeight) throws IOException {
 
-        FFmpegProbeResult probeResult = ffprobe.probe(fileStorageConfig.getBasePath() + name);
+        String mediaPath = fileStorageConfig.getBasePath() + name;
+        String outputPath = fileStorageConfig.getTempPath() + name;
+
+        FFmpegProbeResult probeResult = ffprobe.probe(mediaPath);
 
         FFmpegOutputBuilder outputBuilder = new FFmpegOutputBuilder()
                 .setVideoWidth(newWidth)
@@ -35,7 +38,7 @@ public class FfmpegConverter implements ConversionService {
                 .setInput(probeResult)
                 .setFormat("mp4")
                 .addOutput(outputBuilder)
-                .addOutput(fileStorageConfig.getTempPath() + name)
+                .addOutput(outputPath)
                 .done();
 
         return executor.createJob(builder);
